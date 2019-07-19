@@ -38,11 +38,12 @@ jsonRequest.send(); //Send the request
  function combineJsonData(userData, scoreData){
  	
  	/*	This function takes in both the userData and scoreData objects and combines
- 		them one data object called 'combinedJsonData'. This complete data object is then
- 		returned. The funtion is in two steps:
+ 		them one data object called 'combinedJsonData'. The function then fills blank 'score' properties with a '-'. 
+ 		This complete data object is then returned. The funtion is in three steps:
 
  		1) Load userData into combinedJsonData without any changes
  		2) Load scoreData into combinedJsonData by adding a new property corresponding to each score (score 1, score 2, etc...)
+ 		3) Fill black scoreData
  	*/
 
 	//1) Load userData into combinedJsonData
@@ -73,6 +74,36 @@ jsonRequest.send(); //Send the request
  		}
  	}
 
+ 	//3) Fill blank score data
+ 	var largestDataObject; //Find out which data object holds the most properties. This object will be used to create the headers
+
+	for (var i = 1; i<combinedJsonData.length; i++){
+
+		if (i == 1){
+			if (Object.keys(combinedJsonData[i-1]).length > Object.keys(combinedJsonData[i]).length){
+				largestDataObject = combinedJsonData[i-1];
+			}
+			else {
+				largestDataObject = combinedJsonData[i];
+			}
+		}
+
+		if (Object.keys(combinedJsonData[i]).length > Object.keys(largestDataObject).length){
+			largestDataObject = combinedJsonData[i];
+		}
+	}
+
+
+	for (var i = 0; i<combinedJsonData.length; i++){
+		var scoresNeeded = Object.keys(largestDataObject).length - Object.keys(combinedJsonData[i]).length;
+
+		for (var j = 0; j<scoresNeeded; j++){
+			combinedJsonData[i][createScorePropertyName(combinedJsonData[i], j+1)] = '0'; //FIXME - Fix the sorting algorithm and then change this back to '-' instead of 0
+		}
+	}
+
+	console.log(combinedJsonData);
+
  	return combinedJsonData;
 
  }
@@ -86,6 +117,16 @@ jsonRequest.send(); //Send the request
  	*/
 
  	var propertyIteration = Object.keys(object).length - 3;
+ 	var propertyScore = "score ";
+ 	return propertyScore.concat(propertyIteration);
+ }
+
+ function createFillerScorePropertyNames(object, score){
+
+ 	/*This property fills blank score data
+ 	*/
+
+ 	var propertyIteration = Object.keys(object).length + score;
  	var propertyScore = "score ";
  	return propertyScore.concat(propertyIteration);
  }
@@ -107,10 +148,11 @@ jsonRequest.send(); //Send the request
   	for (var i = 0; i<combinedData.length; i++){
 
   		var properties = Object.keys(combinedData[i]); //Get all of the properties from each data object
+  		var values = Object.values(combinedData[i]);
   		var scores = []; //Will hold all of the scores
   		
   		for (var j = 0; j<properties.length; j++){
-  			if (properties[j].substr(0, 5) === "score"){
+  			if (properties[j].substr(0, 5) === "score" && values[j] != "0"){ //FIXME - Fix the sorting algorithm and then change this back to '-' instead of 0
   				scores.push(combinedData[i][properties[j]]);
   			}
   		}
@@ -133,6 +175,10 @@ jsonRequest.send(); //Send the request
  ********************************************************************************/
 
  function sort(combinedData, propertyName, direction){
+
+ 	//FIXME - There is a problem with the sorting algorithm when the values are equal. Not exactly sure what the problem is
+ 	//but the workaround for now is to load the default 'filler values' on the excess score properties as '0' and then 
+ 	//simply convert the 0 to a '-' when loaidn the table. Make sure the 0 isn't included in the average calculation
 
  	/*  This function takes in a data set (combinedData) as an array, a property Name, and a direction. The data set
 		is sorted in ascending or descending order based on the 'direction' value (either "ascending" or "descending").
@@ -358,11 +404,11 @@ function updateExtendedTable(combinedData, dataOrder) {
 		if (i == 0) {
 			var propertyNames = Object.keys(largestDataObject);
 			addHeader(table, propertyNames, true, combinedData, dataOrder, "extended"); //Data is originally arranged in the 'original' order 
-			addExtendedRow(table, Object.values(combinedData[i]), Object.keys(combinedData[i]), Object.keys(largestDataObject));
+			addRow(table, Object.values(combinedData[i]));
 			continue;
 		}
 
-		addExtendedRow(table, Object.values(combinedData[i]), Object.keys(combinedData[i]), Object.keys(largestDataObject));
+		addRow(table, Object.values(combinedData[i]));
 		
 	}
 }
@@ -425,40 +471,18 @@ function addRow(table, values){
 	
 }
 
-function addExtendedRow(table, values, keys, possibleColumns){
-	/* Used to build the rows for the extended view.
-	*/
-
-	var tmpValues = []; //Used to store "null" values in the columns that have no values
-	var tableRow = document.createElement("tr");
-
-	for (var i = 0; i<possibleColumns.length; i++){
-
-		var match = false;
-
-		for (var j = 0; j<keys.length; j++){
-			if (possibleColumns[i] == keys[j]){
-				tmpValues.push(values[j]);
-				match = true;
-			}
-		}
-
-		if (match == false){ //If there is no match, load a 'null' placeholder
-			tmpValues.push("-");
-		}
-	}
-
-	for (var i = 0; i<tmpValues.length; i++){
-		addCell(tableRow, tmpValues[i]); //Send in false by default because no listeners are added to an individual row
-	}
-
-	table.appendChild(tableRow);
-
-}
-
 function addCell(tableRow, value){
 	var tableData = document.createElement("td");
-	tableData.innerHTML = value;
+
+	//FIXME - Once the sorting algorithm is fixed, remove this if-else statement
+	if (value == 0){
+		tableData.innerHTML = "-";
+	}
+	else {
+		tableData.innerHTML = value;
+	}
+
+	
 	tableRow.appendChild(tableData);
 	
 }
