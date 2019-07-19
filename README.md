@@ -8,6 +8,7 @@ project marks my first time using the languages.
 To open the webpage:
 
 1) Navigate to https://github.com/czechmate48/CBHT-Coding-Challenge
+2) Click "Clone or Download"
 2) Select "Download ZIP"
 3) Unzip the file once download is complete
 4) Navigate to "CBHT-Coding-Challenge-master" -> "CodingChallenge"
