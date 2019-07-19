@@ -13,8 +13,7 @@ To open the webpage:
 4) Navigate to "CBHT-Coding-Challenge-master" -> "CodingChallenge"
 5) Double click 'index.html'
 
-As of the time of this writing, the code has been verified to work with Mozilla firefox. I've also included two files, "codeChallengeCSS"
-and "codeChallengeJS", which contain the CSS and javascript files, respectively. Feel free to review them using any plain text reader. 
+As of the time of this writing, the code has been verified to work with Mozilla firefox. The code fetches the Json data from Github, so you will need to be connected to the internet when opening the web page. I've also included two files, "codeChallengeCSS" and "codeChallengeJS", which contain the CSS and javascript files, respectively. Feel free to review them using any plain text reader. 
 They were written using the 'SublimeText' program. 
 
 Extra Features:
