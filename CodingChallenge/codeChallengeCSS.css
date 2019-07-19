@@ -1,0 +1,49 @@
+#tableDiv{
+	border: 1px solid black;
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+
+thead{
+	background: #c4dbff;
+	font-weight: bold;
+}
+
+thead td:hover {
+	background: #6baddf;
+	color: #01193f;
+}
+
+td {
+	border: 1px solid black;
+}
+
+body{
+	background: #d8eaeb;
+}
+
+button {
+	background-color: #ffd4a1;
+	font-weight: bold;
+	border-color: black;
+
+}
+
+button:hover {
+	background: #6baddf;
+	color: #01193f;
+}
+
+img{
+	  display: block;
+  	  margin-left: auto;
+      margin-right: auto;
+      width: 3%;
+}
+
+h1{
+	background: #f7e6cb;
+	border: 2px solid black;
+}
