@@ -1,10 +1,4 @@
 # CBHT-Coding-Challenge
-
-Hello! Thank you for taking the time to review my solution for the "CBHT Coding Challenge." I appreciate the opportunity
-to showcase my knowledge and abilities as a software developer. I really enjoyed completing this project, and believe it provides
-valuable insight into how I approach problem sovling. Please be advised I have never used javascript or HTML before, and this 
-project marks my first time using the languages.
-
 To open the webpage:
 
 1) Navigate to https://github.com/czechmate48/CBHT-Coding-Challenge
@@ -28,11 +22,3 @@ Extra Features:
 
 * Reusability: The code design should only require minor modifications to make it usable with other sets of data. This feature 
   reduces uncessary time spent in the future. 
-
-Again, thank you for taking the time to consider my candidacy. Please don't hesitate to contact me if you have any trouble accessing
-the files. 
-
-Best,
-
-Christopher N. Sefcik
-
